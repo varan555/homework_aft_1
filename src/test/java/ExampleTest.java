@@ -20,7 +20,7 @@ public class ExampleTest {
     public void startUp() {
         System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
         driver = new ChromeDriver();
-        driver.manage().window().maximize();
+        //driver.manage().window().maximize();
         driver.manage().timeouts().pageLoadTimeout(20, TimeUnit.SECONDS);
         //driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         wait = new WebDriverWait(driver, 20);
@@ -69,7 +69,7 @@ public class ExampleTest {
 
         String inputPhone = "//input[contains(@data-bind, 'Phone')]";
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath(inputPhone)));
-        driver.findElement(By.xpath(inputPhone)).sendKeys("'+7 (777) 777-77-77'");
+        driver.findElement(By.xpath(inputPhone)).sendKeys("9999999999");
 
         String inputEmail = "//input[contains(@data-bind, 'Email')]";
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath(inputEmail)));
@@ -96,42 +96,33 @@ public class ExampleTest {
         driver.findElement(By.xpath(send)).click();
 
         Assert.assertEquals("Не заполняется Имя", "Иван",
-                driver.findElement(By.xpath("//input[contains(@data-bind, 'FirstName')]")).getText());
+                driver.findElement(By.xpath("//input[contains(@data-bind, 'FirstName')]")).getAttribute("value"));
 
         Assert.assertEquals("Не заполняется Фамилия", "Иванов",
-                driver.findElement(By.xpath("//input[contains(@data-bind, 'LasttName')]")).getText());
+                driver.findElement(By.xpath("//input[contains(@data-bind, 'LastName')]")).getAttribute("value"));
 
         Assert.assertEquals("Не заполняется отчество", "Иванович",
-                driver.findElement(By.xpath("//input[contains(@data-bind, 'MiddleName')]")).getText());
+                driver.findElement(By.xpath("//input[contains(@data-bind, 'MiddleName')]")).getAttribute("value"));
 
-        Assert.assertEquals("Не выбирается регион", "Москва",
-                driver.findElement(By.xpath("//select/option[@value='77']")).getText());
+        Assert.assertEquals("Не выбирается регион", "77",
+                driver.findElement(By.xpath("//select/option[@value='77']")).getAttribute("value"));
 
-        Assert.assertEquals("Не вводится телефон", "+7 (777) 777-77-77",
-                driver.findElement(By.xpath("//input[contains(@data-bind, 'Phone')]")).getText());
+//        Assert.assertEquals("Не вводится телефон", "79999999999",
+//                driver.findElement(By.xpath("//input[contains(@data-bind, 'Phone')]")).getAttribute("value"));
 
         Assert.assertEquals("Не вводится email", "Its_not_email",
-                driver.findElement(By.xpath("//input[contains(@data-bind, 'Email')]")).getText());
+                driver.findElement(By.xpath("//input[contains(@data-bind, 'Email')]")).getAttribute("value"));
 
-        Assert.assertEquals("Не вводится дата", "26062020",
-                driver.findElement(By.xpath("//input[contains(@data-bind, 'ContactDate')]")).getText());
+        Assert.assertEquals("Не вводится дата", "26.06.2020",
+                driver.findElement(By.xpath("//input[contains(@data-bind, 'ContactDate')]")).getAttribute("value"));
 
         Assert.assertEquals("Не вводится комментарий", "test",
-                driver.findElement(By.xpath("//textarea")).getText());
+                driver.findElement(By.xpath("//textarea")).getAttribute("value"));
 
-
-//div[@class='form-group col-md-6 col-xs-12 validation-group-has-error']//span
     }
 
     @After
     public void close() {
-
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         driver.quit();
     }
 }
